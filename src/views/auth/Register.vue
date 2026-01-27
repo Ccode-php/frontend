@@ -47,7 +47,7 @@ export default {
       this.error = null
       this.loading = true
       try {
-        await api.post('/register', {
+        await api.post('/auth/register', {
           name: this.name,
           email: this.email,
           password: this.password,
