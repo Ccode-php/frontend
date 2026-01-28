@@ -44,7 +44,7 @@ export default {
       this.error = null
       this.loading = true
       try {
-        const res = await api.post('/login', {
+        const res = await api.post('/auth/login', {
           email: this.email,
           password: this.password,
         })
