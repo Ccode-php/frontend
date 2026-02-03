@@ -49,6 +49,7 @@ export default {
           password: this.password,
         })
         localStorage.setItem('token', res.data.access_token)
+        localStorage.setItem('refresh_token', res.data.refresh_token)
         this.$router.push('/dashboard')
       } catch {
         this.error = 'Email yoki password xato'
