@@ -4,40 +4,62 @@ const api = axios.create({
   baseURL: 'http://dev.myapp.local/api',
 })
 
-// Token qo'shish
-api.interceptors.request.use(config => {
-  const token = localStorage.getItem('token')
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`
-  }
-  return config
-}, error => Promise.reject(error))
+function isTokenExpired(token) {
+  if (!token) return true
+  const payload = JSON.parse(atob(token.split('.')[1]))
+  const now = Math.floor(Date.now() / 1000)
+  return payload.exp < now
+}
 
-// Refresh token funksiyasi
 async function refreshToken() {
+  const refresh_token = localStorage.getItem('refresh_token')
+  if (!refresh_token) return null
+
   try {
-    const refresh_token = localStorage.getItem('refresh_token')
-    const res = await api.post('/auth/refresh', { refresh_token })
+    const res = await axios.post(
+      'http://dev.myapp.local/api/auth/refresh',
+      { refresh_token }
+    )
+
     localStorage.setItem('token', res.data.access_token)
     localStorage.setItem('refresh_token', res.data.refresh_token)
+
     return res.data.access_token
   } catch (e) {
-    console.error('Refresh token xato', e)
-    // Agar refresh token xato bo‘lsa, logout qilishingiz mumkin
     localStorage.removeItem('token')
     localStorage.removeItem('refresh_token')
     window.location.href = '/login'
+    return null
   }
 }
 
-// Response interceptor
+/**
+ * REQUEST interceptor
+ */
+api.interceptors.request.use(async config => {
+  let token = localStorage.getItem('token')
+
+  if (token && isTokenExpired(token)) {
+    token = await refreshToken()
+  }
+
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`
+  }
+
+  return config
+})
+
+/**
+ * RESPONSE interceptor (fallback)
+ */
 api.interceptors.response.use(
-  response => response,
+  res => res,
   async error => {
-    if (error.response && error.response.status === 401) { // access token expired
+    if (error.response?.status === 401) {
       const newToken = await refreshToken()
       if (newToken) {
-        error.config.headers['Authorization'] = `Bearer ${newToken}`
+        error.config.headers.Authorization = `Bearer ${newToken}`
         return api.request(error.config)
       }
     }
