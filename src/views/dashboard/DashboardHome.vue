@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import api from '@/api' // sizning api.js
+import api from '../../services/api' // sizning api.js
 
 export default {
   data() {
