@@ -40,7 +40,7 @@
           <h2 class="text-xl font-semibold">{{ p.name }}</h2>
           <p class="text-gray-400 text-sm">{{ p.description }}</p>
 
-          <img v-if="p.image" :src="p.image" class="w-28 h-28 object-cover rounded mt-2" />
+          <img v-if="p.image_url" :src="p.image_url" class="w-28 h-28 object-cover rounded mt-2" />
         </div>
 
         <div class="flex flex-col gap-2">
