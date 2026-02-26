@@ -5,7 +5,7 @@
     <!-- PRODUCT -->
     <div class="bg-slate-800 p-6 rounded-xl space-y-3">
       <h1 class="text-2xl font-bold">{{ product.name }}</h1>
-      <img v-if="product.image" :src="product.image" class="w-40 rounded" />
+      <img v-if="product.image_url" :src="product.image_url" class="w-40 rounded" />
     </div>
 
     <!-- VARIANTS -->

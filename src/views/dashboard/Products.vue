@@ -8,7 +8,7 @@
       <div v-for="product in products" :key="product.id" class="bg-slate-800 p-4 rounded-xl cursor-pointer"
         @click="$router.push(`/dashboard/products/${product.id}`)">
 
-        <img v-if="product.image" :src="product.image" class="w-full h-40 object-cover rounded-md mb-2" />
+        <img v-if="product.image_url" :src="product.image_url" class="w-full h-40 object-cover rounded-md mb-2" />
 
         <h2 class="text-xl font-bold text-white">{{ product.name }}</h2>
         <p class="text-gray-400 text-sm">{{ product.description }}</p>
