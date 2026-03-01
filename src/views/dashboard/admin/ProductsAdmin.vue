@@ -78,12 +78,12 @@ export default {
 
   methods: {
     async fetchProducts() {
-      const { data } = await api.get('/products')
+      const { data } = await api.get('/product/products')
       this.products = data
     },
 
     async fetchCategories() {
-      const { data } = await api.get('/categories')
+      const { data } = await api.get('/product/categories')
       this.categories = data
       this.flatCategories = this.flattenCategories(data)
     },
@@ -120,9 +120,9 @@ export default {
       if (this.form.image) fd.append('image', this.form.image)
 
       if (this.editingProduct) {
-        await api.post(`/products/${this.editingProduct.id}`, fd)
+        await api.post(`/product/products/${this.editingProduct.id}`, fd)
       } else {
-        await api.post('/products', fd)
+        await api.post('/product/products', fd)
       }
 
       this.cancelEdit()
@@ -151,7 +151,7 @@ export default {
 
     async deleteProduct(id) {
       if (!confirm('Delete product?')) return
-      await api.delete(`/products/${id}`)
+      await api.delete(`/product/products/${id}`)
       this.fetchProducts()
     },
   },

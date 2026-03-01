@@ -45,7 +45,7 @@ export default {
     async fetchProducts() {
       this.loading = true
       try {
-        const res = await api.get('/products')
+        const res = await api.get('/product/products')
         this.products = res.data
       } finally {
         this.loading = false

@@ -86,7 +86,7 @@
     methods: {
       async fetchProduct() {
         this.loading = true
-        const res = await api.get(`/products/${this.$route.params.id}`)
+        const res = await api.get(`/product/products/${this.$route.params.id}`)
         this.product = res.data
         this.loading = false
       },

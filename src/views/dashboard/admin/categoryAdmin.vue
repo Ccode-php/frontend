@@ -91,7 +91,7 @@
   
     methods: {
       async fetchCategories() {
-        const { data } = await api.get('/categories')
+        const { data } = await api.get('/product/categories')
         this.categories = data
         this.flatCategories = this.flattenCategories(data)
       },
@@ -119,9 +119,9 @@
   
       async saveCategory() {
         if (this.editing) {
-          await api.put(`/categories/${this.editing.id}`, this.form)
+          await api.put(`/product/categories/${this.editing.id}`, this.form)
         } else {
-          await api.post('/categories', this.form)
+          await api.post('/product/categories', this.form)
         }
   
         this.cancelEdit()
@@ -143,7 +143,7 @@
   
       async deleteCategory(id) {
         if (!confirm('Delete category?')) return
-        await api.delete(`/categories/${id}`)
+        await api.delete(`/product/categories/${id}`)
         this.fetchCategories()
       },
     },

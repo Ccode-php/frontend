@@ -71,7 +71,7 @@ export default {
 
   methods: {
     async fetchProduct() {
-      const { data } = await api.get(`/products/${this.id}`)
+      const { data } = await api.get(`/product/products/${this.id}`)
       this.product = data
       this.variants = data.variants
     },
@@ -93,13 +93,13 @@ export default {
     async saveVariant() {
       if (this.editingVariant) {
         // UPDATE
-        await api.put(`/variants/${this.editingVariant.id}`, {
+        await api.put(`/product/variants/${this.editingVariant.id}`, {
           product_id: this.id,  // 🔹 yuboriladi
           ...this.form,
         })
       } else {
         // CREATE
-        await api.post('/variants', {
+        await api.post('/product/variants', {
           product_id: this.id,
           ...this.form,
         })
@@ -111,7 +111,7 @@ export default {
 
     async deleteVariant(id) {
       if (!confirm('Delete variant?')) return
-      await api.delete(`/variants/${id}`)
+      await api.delete(`/product/variants/${id}`)
       this.fetchProduct()
     },
   },
